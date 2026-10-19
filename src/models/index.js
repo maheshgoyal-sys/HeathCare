@@ -7,6 +7,8 @@ const Mapping = require('./Mapping');
 
 User.hasMany(Patient, { foreignKey: 'createdBy', onDelete: 'CASCADE' });
 Patient.belongsTo(User, { foreignKey: 'createdBy', as: 'creator' });
+User.hasOne(Patient, { foreignKey: 'userId', onDelete: 'CASCADE' });
+Patient.belongsTo(User, { foreignKey: 'userId', as: 'account' });
 
 User.hasMany(Doctor, { foreignKey: 'createdBy', onDelete: 'CASCADE' });
 Doctor.belongsTo(User, { foreignKey: 'createdBy', as: 'creator' });

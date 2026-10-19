@@ -7,6 +7,7 @@ const Patient = sequelize.define('Patient', {
   gender: { type: DataTypes.ENUM('male', 'female', 'other'), allowNull: false },
   disease: { type: DataTypes.STRING },
   createdBy: { type: DataTypes.INTEGER, allowNull: false },
+  userId: { type: DataTypes.INTEGER, unique: true },
 }, { tableName: 'patients' });
 
 module.exports = Patient;
