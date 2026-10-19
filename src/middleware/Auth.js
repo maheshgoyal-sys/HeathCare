@@ -16,7 +16,7 @@ module.exports = asyncHandler(async (req, res, next) => {
     throw new AppError('Invalid or expired token', 401);
   }
 
-  const user = await User.findByPk(decoded.id, { attributes: ['id', 'name', 'email'] });
+  const user = await User.findByPk(decoded.id, { attributes: ['id', 'name', 'email', 'role'] });
   if (!user) throw new AppError('User no longer exists', 401);
 
   req.user = user;

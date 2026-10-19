@@ -13,9 +13,10 @@ app.get('/health', (req, res) => {
 });
 const { notFound, errorHandler } = require('./middleware/ErrorHandler');
 
+app.use('/api/auth', require('./routes/AuthRoutes'));
 app.use('/api/patients', require('./routes/patientRoutes'));
 app.use('/api/doctors', require('./routes/DoctorRoutes'));
+app.use('/api/mappings', require('./routes/MappingRoutes'));
 app.use(notFound);
 app.use(errorHandler);
-app.use('/api/mappings', require('./routes/MappingRoutes'));
 module.exports = app;

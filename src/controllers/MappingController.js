@@ -5,7 +5,7 @@ const asyncHandler = require('../utils/asyncHandler');
 exports.create = asyncHandler(async (req, res) => {
   const { patientId, doctorId } = req.body;
 
-  const patient = await Patient.findOne({ where: { id: patientId, createdBy: req.user.id } });
+  const patient = await Patient.findByPk(patientId);
   if (!patient) throw new AppError('Patient not found', 404);
 
   const doctor = await Doctor.findByPk(doctorId);
@@ -21,7 +21,7 @@ exports.create = asyncHandler(async (req, res) => {
 exports.getAll = asyncHandler(async (req, res) => {
   const mappings = await Mapping.findAll({
     include: [
-      { model: Patient, as: 'patient', where: { createdBy: req.user.id } },
+      { model: Patient, as: 'patient' },
       { model: Doctor, as: 'doctor' },
     ],
     order: [['createdAt', 'DESC']],
@@ -30,9 +30,7 @@ exports.getAll = asyncHandler(async (req, res) => {
 });
 
 exports.getByPatient = asyncHandler(async (req, res) => {
-  const patient = await Patient.findOne({
-    where: { id: req.params.patient_id, createdBy: req.user.id },
-  });
+  const patient = await Patient.findByPk(req.params.patient_id);
   if (!patient) throw new AppError('Patient not found', 404);
 
   const mappings = await Mapping.findAll({
@@ -51,7 +49,7 @@ exports.getByPatient = asyncHandler(async (req, res) => {
 exports.remove = asyncHandler(async (req, res) => {
   const mapping = await Mapping.findOne({
     where: { id: req.params.id },
-    include: [{ model: Patient, as: 'patient', where: { createdBy: req.user.id } }],
+    include: [{ model: Patient, as: 'patient' }],
   });
   if (!mapping) throw new AppError('Mapping not found', 404);
 

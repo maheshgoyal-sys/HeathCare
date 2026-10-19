@@ -10,6 +10,12 @@ const User = sequelize.define('User', {
     validate: { isEmail: true },
   },
   password: { type: DataTypes.STRING, allowNull: false },
+  role: {
+    type: DataTypes.STRING(20),
+    allowNull: false,
+    defaultValue: 'patient',
+    validate: { isIn: [['patient', 'doctor', 'other']] },
+  },
 }, { tableName: 'users' });
 
 module.exports = User;
