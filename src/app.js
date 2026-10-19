@@ -13,6 +13,7 @@ app.get('/health', (req, res) => {
 });
 const { notFound, errorHandler } = require('./middleware/ErrorHandler');
 // ... routes yahan aayenge
+app.use('/api/patients', require('./routes/patientRoutes'));
 app.use(notFound);
 app.use(errorHandler);
 
