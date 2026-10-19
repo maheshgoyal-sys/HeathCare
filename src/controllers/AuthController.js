@@ -18,4 +18,21 @@ exports.register = asyncHandler(async (req, res) => {
     message: 'User registered successfully',
     data: { id: user.id, name: user.name, email: user.email },
   });
+  exports.login = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ where: { email } });
+  const valid = user && (await bcrypt.compare(password, user.password));
+  if (!valid) throw new AppError('Invalid credentials', 401);
+
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN || '1d',
+  });
+
+  res.json({
+    success: true,
+    message: 'Login successful',
+    data: { token, user: { id: user.id, name: user.name, email: user.email } },
+  });
+});
 });
