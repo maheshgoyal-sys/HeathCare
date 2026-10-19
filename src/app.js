@@ -12,10 +12,10 @@ app.get('/health', (req, res) => {
   res.json({ success: true, message: 'Server is running' });
 });
 const { notFound, errorHandler } = require('./middleware/ErrorHandler');
-// ... routes yahan aayenge
+
 app.use('/api/patients', require('./routes/patientRoutes'));
 app.use('/api/doctors', require('./routes/DoctorRoutes'));
 app.use(notFound);
 app.use(errorHandler);
-
+app.use('/api/mappings', require('./routes/MappingRoutes'));
 module.exports = app;
